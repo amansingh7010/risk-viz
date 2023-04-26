@@ -25,3 +25,9 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+
+.map-container {
+  height: 800px;
+  width: 1000px;
+  }
