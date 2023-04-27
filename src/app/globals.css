@@ -30,4 +30,5 @@ body {
 .map-container {
   height: 800px;
   width: 1000px;
-  }
+  border-radius: 20px;
+}

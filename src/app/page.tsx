@@ -31,7 +31,7 @@ const getParsedData = async () => {
 getParsedData()
 
 export default function Home() {
-  return (
+ return (
     <main className="flex min-h-screen flex-col items-center justify-between p-20">
       <header>
         <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
