@@ -26,9 +26,10 @@ body {
     rgb(var(--background-start-rgb));
 }
 
+.mapboxgl-popup-content {
+  background-color: #212121 !important;
+}
 
-.map-container {
-  height: 800px;
-  width: 1000px;
-  border-radius: 20px;
+.mapboxgl-popup-tip {
+  border-bottom-color: #212121 !important;
 }

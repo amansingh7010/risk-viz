@@ -1,7 +1,7 @@
 import Papa from 'papaparse'
 import fs from 'fs'
 import path from 'path'
-import RiskThinking from '../components/Riskthinking'
+import RiskThinking from './components/Riskthinking'
 
 const FILE_PATH = `${path.join(process.cwd(), 'data')}/dataset.csv`
 
@@ -24,8 +24,15 @@ let maxYear: number = -1
 
 const getParsedData = async () => {
   parsedData = await readCSV(FILE_PATH)
-  minYear = Math.min(...parsedData.map((obj: any) => Number(obj.Year)))
-  maxYear = Math.max(...parsedData.map((obj: any) => Number(obj.Year)))
+  parsedData = parsedData.map((obj: any) => ({
+    ...obj,
+    Year: Number(obj.Year),
+    Lat: Number(obj.Lat),
+    Long: Number(obj.Long),
+    'Risk Rating': Number(obj['Risk Rating']),
+  }))
+  minYear = Math.min(...parsedData.map((obj: any) => obj.Year))
+  maxYear = Math.max(...parsedData.map((obj: any) => obj.Year))
 }
 
 getParsedData()
@@ -38,7 +45,7 @@ export default function Home() {
           <h1 className="text-3xl font-bold tracking-tight text-white">RiskThinking UI/UX Work Sample</h1>
         </div>
       </header>
-      <div className="z-10 w-full max-w-5xl items-center justify-between lg:flex">
+      <div className="z-10 w-full max-w-12xl items-center justify-between lg:flex">
         <RiskThinking data={parsedData} minYear={minYear} maxYear={maxYear} />
       </div>
     </main>
