@@ -1,7 +1,7 @@
 import Papa from 'papaparse'
 import fs from 'fs'
 import path from 'path'
-import RiskThinking from './components/Riskthinking'
+import RiskThinking from './components/RiskApp'
 
 const FILE_PATH = `${path.join(process.cwd(), 'data')}/dataset.csv`
 
