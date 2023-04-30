@@ -1,26 +1,52 @@
 import React, { useState, useMemo } from "react";
-import { useTable, usePagination, useSortBy, useFilters } from "react-table"
+import { useTable, usePagination, useSortBy, useGlobalFilter, useFilters } from "react-table"
+
+const emptyArray = [];
+const columns = [
+  {
+    Header: "Asset Name",
+    accessor: "Asset Name",
+  },
+  {
+    Header: "Business Category",
+    accessor: "Business Category",
+  },
+  {
+    Header: "Risk Rating",
+    accessor: "Risk Rating",
+  },
+  {
+    Header: "Risk Factors",
+    accessor: "Risk Factors",
+  },
+];
+
+// Define a default UI for filtering
+const DefaultColumnFilter = ({
+  column: { filterValue, setFilter },
+}) => {
+
+  return (
+    <input
+      value={filterValue || ''}
+      className="w-3/4 px-2"
+      onChange={e => {
+        setFilter(e.target.value || undefined)
+      }}
+      placeholder={`Search...`}
+    />
+  )
+}
 
 const Table = ({ data = [] }) => {
 
-  const columns = [
-    {
-      Header: "Asset Name",
-      accessor: "Asset Name",
-    },
-    {
-      Header: "Business Category",
-      accessor: "Business Category",
-    },
-    {
-      Header: "Risk Rating",
-      accessor: "Risk Rating",
-    },
-    {
-      Header: "Risk Factors",
-      accessor: "Risk Factors",
-    },
-  ];
+  const defaultColumn = useMemo(
+    () => ({
+      Filter: DefaultColumnFilter,
+    }),
+    []
+  )
+
   
   const {
     getTableProps,
@@ -36,15 +62,19 @@ const Table = ({ data = [] }) => {
     nextPage,
     previousPage,
     setPageSize,
+    visibleColumns,
     state: { pageIndex, pageSize },
   } = useTable(
     {
       columns,
-      data,
+      data: data || emptyArray,
+      defaultColumn,
       initialState: { pageIndex: 0 },
     },
-    usePagination
+    useFilters,
+    usePagination,
   );
+
 
 
   return (
@@ -61,9 +91,10 @@ const Table = ({ data = [] }) => {
                 <th
                   key={`column-${columnIndex}`}
                   {...column.getHeaderProps()}
-                  className="px-4 py-2 text-left text-gray-600 font-semibold tracking-wider uppercase"
+                  className="px-3 py-2 text-left text-gray-600 font-semibold tracking-wider uppercase"
                 >
                   {column.render("Header")}
+                  <div>{column.canFilter ? column.render('Filter') : null}</div>
                 </th>
               ))}
             </tr>
@@ -79,7 +110,7 @@ const Table = ({ data = [] }) => {
                     <td
                       key={`cell-${cellKey}`}
                       {...cell.getCellProps({
-                        className: "px-4 py-2 border-t border-gray-200 text-sm",
+                        className: "px-3 py-2 border-t border-gray-200 text-xs",
                       })}
                     >
                       {cell.render("Cell")}
@@ -92,29 +123,32 @@ const Table = ({ data = [] }) => {
         </tbody>
       </table>
 
-      <div style={{padding: '0.5rem'}}>
+      <div className="p-0.5 flex flex-auto justify-evenly">
         <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
           {'<<'}
-        </button>{' '}
+        </button>
         <button onClick={() => previousPage()} disabled={!canPreviousPage}>
           {'<'}
-        </button>{' '}
+        </button>
         <button onClick={() => nextPage()} disabled={!canNextPage}>
           {'>'}
-        </button>{' '}
+        </button>
         <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
           {'>>'}
-        </button>{' '}
+        </button>
         <span>
-          Page{' '}
+          Page
           <strong>
             {pageIndex + 1} of {pageOptions.length}
-          </strong>{' '}
+          </strong>
         </span>
         <span>
-          | Go to page:{' '}
+          Go to page:
+        </span>
+        <span>
           <input
             type="number"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             defaultValue={pageIndex + 1}
             onChange={e => {
               const page = e.target.value ? Number(e.target.value) - 1 : 0
@@ -122,9 +156,10 @@ const Table = ({ data = [] }) => {
             }}
             style={{ width: '100px' }}
           />
-        </span>{' '}
+        </span>
         <select
           value={pageSize}
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           onChange={e => {
             setPageSize(Number(e.target.value))
           }}
