@@ -3,9 +3,9 @@
 import { useState, useMemo } from "react";
 
 import RiskMap from "./RiskMap";
-import Table from "./Table";
+import RiskTable from "./RiskTable";
 
-const RiskThinking = ({ data, minYear, maxYear }) => {
+const RiskApp = ({ data, minYear, maxYear }) => {
   const [decade, setDecade] = useState(minYear);
   const startDecade = Math.floor(minYear / 10) * 10;
   const endDecade = Math.ceil(maxYear / 10) * 10;
@@ -44,7 +44,7 @@ const RiskThinking = ({ data, minYear, maxYear }) => {
       {filteredData && (
         <div className="w-fixed w-full flex-shrink flex-grow-0 px-2">
           <div className="flex sm:flex-col px-2">
-            <Table data={filteredData} />
+            <RiskTable data={filteredData} />
           </div>
         </div>
       )}
@@ -54,4 +54,4 @@ const RiskThinking = ({ data, minYear, maxYear }) => {
   );
 };
 
-export default RiskThinking;
+export default RiskApp;

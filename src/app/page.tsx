@@ -1,7 +1,7 @@
 import Papa from 'papaparse'
 import fs from 'fs'
 import path from 'path'
-import RiskThinking from './components/RiskApp'
+import RiskApp from './components/RiskApp'
 
 const FILE_PATH = `${path.join(process.cwd(), 'data')}/dataset.csv`
 
@@ -46,7 +46,7 @@ export default function Home() {
         </div>
       </header>
       <div className="z-10 w-full max-w-12xl items-center justify-between lg:flex">
-        <RiskThinking data={parsedData} minYear={minYear} maxYear={maxYear} />
+        <RiskApp data={parsedData} minYear={minYear} maxYear={maxYear} />
       </div>
     </main>
   )
