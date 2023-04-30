@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from "react";
-import { useTable, usePagination, useSortBy, useGlobalFilter, useFilters } from "react-table"
+import { useTable, usePagination, useFilters, useSortBy } from "react-table"
 
 const emptyArray = [];
 const columns = [
@@ -62,7 +62,6 @@ const Table = ({ data = [] }) => {
     nextPage,
     previousPage,
     setPageSize,
-    visibleColumns,
     state: { pageIndex, pageSize },
   } = useTable(
     {
@@ -72,6 +71,7 @@ const Table = ({ data = [] }) => {
       initialState: { pageIndex: 0 },
     },
     useFilters,
+    useSortBy,
     usePagination,
   );
 
@@ -90,10 +90,17 @@ const Table = ({ data = [] }) => {
               {headerGroup.headers.map((column, columnIndex) => (
                 <th
                   key={`column-${columnIndex}`}
-                  {...column.getHeaderProps()}
+                  {...column.getHeaderProps(column.getSortByToggleProps())}
                   className="px-3 py-2 text-left text-gray-600 font-semibold tracking-wider uppercase"
                 >
                   {column.render("Header")}
+                  <span>
+                    {column.isSorted
+                      ? column.isSortedDesc
+                        ? ' 🔽'
+                        : ' 🔼'
+                      : ''}
+                  </span>
                   <div>{column.canFilter ? column.render('Filter') : null}</div>
                 </th>
               ))}
