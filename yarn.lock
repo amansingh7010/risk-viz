@@ -102,6 +102,11 @@
     "@jridgewell/resolve-uri" "3.1.0"
     "@jridgewell/sourcemap-codec" "1.4.14"
 
+"@kurkle/color@^0.3.0":
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/@kurkle/color/-/color-0.3.2.tgz#5acd38242e8bde4f9986e7913c8fdf49d3aa199f"
+  integrity sha512-fuscdXJ9G1qb7W8VdHi+IwRqij3lBkosAm4ydQtEmbY58OzHXqQhvlxqEkoz0yssNVn38bcpRWgA9PP+OGoisw==
+
 "@mapbox/geojson-rewind@^0.5.2":
   version "0.5.2"
   resolved "https://registry.yarnpkg.com/@mapbox/geojson-rewind/-/geojson-rewind-0.5.2.tgz#591a5d71a9cd1da1a0bf3420b3bea31b0fc7946a"
@@ -576,6 +581,13 @@ chalk@^4.0.0:
   dependencies:
     ansi-styles "^4.1.0"
     supports-color "^7.1.0"
+
+chart.js@^4.3.0:
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/chart.js/-/chart.js-4.3.0.tgz#ac363030ab3fec572850d2d872956f32a46326a1"
+  integrity sha512-ynG0E79xGfMaV2xAHdbhwiPLczxnNNnasrmPEXriXsPJGjmhOBYzFVEsB65w2qMDz+CaBJJuJD0inE/ab/h36g==
+  dependencies:
+    "@kurkle/color" "^0.3.0"
 
 chokidar@^3.5.3:
   version "3.5.3"
@@ -1683,6 +1695,11 @@ lodash.merge@^4.6.2:
   resolved "https://registry.npmjs.org/lodash.merge/-/lodash.merge-4.6.2.tgz"
   integrity sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==
 
+lodash@^4.17.21:
+  version "4.17.21"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
+  integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
+
 loose-envify@^1.1.0, loose-envify@^1.4.0:
   version "1.4.0"
   resolved "https://registry.npmjs.org/loose-envify/-/loose-envify-1.4.0.tgz"
@@ -2105,6 +2122,11 @@ quickselect@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/quickselect/-/quickselect-2.0.0.tgz#f19680a486a5eefb581303e023e98faaf25dd018"
   integrity sha512-RKJ22hX8mHe3Y6wH/N3wCM6BWtjaxIyyUIkpHOvfFnxdI4yD4tBXEBKSbriGujF6jnSVkJrffuo6vxACiSSxIw==
+
+react-chartjs-2@^5.2.0:
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/react-chartjs-2/-/react-chartjs-2-5.2.0.tgz#43c1e3549071c00a1a083ecbd26c1ad34d385f5d"
+  integrity sha512-98iN5aguJyVSxp5U3CblRLH67J8gkfyGNbiK3c+l1QI/G4irHMPQw44aEPmjVag+YKTyQ260NcF82GTQ3bdscA==
 
 react-dom@18.2.0:
   version "18.2.0"

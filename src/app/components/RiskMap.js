@@ -10,8 +10,11 @@ import Map, {
 } from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 
-const RiskMap = ({ data }) => {
+import RiskChart from "./RiskChart";
+
+const RiskMap = ({ data, startDecade, endDecade }) => {
   const [hoverInfo, setHoverInfo] = useState(null);
+  const [graphInfo, setGraphInfo] = useState(null);
   const geoJson = useMemo(() => {
     return {
       type: "FeatureCollection",
@@ -39,6 +42,8 @@ const RiskMap = ({ data }) => {
             businessCategory: obj["Business Category"],
             latitude: obj.Lat,
             longitude: obj.Long,
+            year: obj.Year,
+            riskFactors: obj["Risk Factors"],
           },
         };
       }),
@@ -52,6 +57,14 @@ const RiskMap = ({ data }) => {
     } = event;
     const hoveredFeature = features && features[0];
     setHoverInfo(hoveredFeature && { feature: hoveredFeature, x, y });
+  }, []);
+
+  const onClick = useCallback((event) => {
+    console.log(event)
+    const {
+      lngLat,
+    } = event;
+    setGraphInfo(lngLat);
   }, []);
 
   const layerStyle = {
@@ -70,43 +83,52 @@ const RiskMap = ({ data }) => {
   };
 
   return (
-    <Map
-      initialViewState={{
-        longitude: -93,
-        latitude: 40,
-        zoom: 3,
-        pitch: 25,
-      }}
-      style={{ width: 800, height: 600 }}
-      mapStyle="mapbox://styles/mapbox/dark-v10"
-      mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}
-      onMouseMove={onHover}
-      interactiveLayerIds={["point"]}
-    >
-      <NavigationControl position="top-left" />
-      <ScaleControl />
-
-      <Source id="riskData" type="geojson" data={geoJson}>
-        <Layer {...layerStyle} />
-      </Source>
-
-      {hoverInfo && (
-        <Popup
-          anchor="top"
-          longitude={hoverInfo.feature.properties.longitude}
-          latitude={hoverInfo.feature.properties.latitude}
-          onClose={() => setHoverInfo(null)}
-          closeButton={false}
+    <div className="flex">
+      <div className="m-2">
+        <Map
+          initialViewState={{
+            longitude: -93,
+            latitude: 40,
+            zoom: 3,
+            pitch: 25,
+          }}
+          style={{ width: 800, height: 600, borderRadius: 10 }}
+          mapStyle="mapbox://styles/mapbox/dark-v10"
+          mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}
+          onMouseMove={onHover}
+          onClick={onClick}
+          interactiveLayerIds={["point"]}
         >
-          <div className="text-white bg-inherit">
-            <div>Asset Name: {hoverInfo.feature.properties.assetName}</div>
-            <div>
-              Business Category: {hoverInfo.feature.properties.businessCategory}
-            </div>
-          </div>
-        </Popup>
-      )}
-    </Map>
+          <NavigationControl position="top-left" />
+          <ScaleControl />
+
+          <Source id="riskData" type="geojson" data={geoJson}>
+            <Layer {...layerStyle} />
+          </Source>
+
+          {hoverInfo && (
+            <Popup
+              anchor="top"
+              longitude={hoverInfo.feature.properties.longitude}
+              latitude={hoverInfo.feature.properties.latitude}
+              onClose={() => setHoverInfo(null)}
+              closeButton={false}
+            >
+              <div className="text-white bg-inherit">
+                <div>Asset Name: {hoverInfo.feature.properties.assetName}</div>
+                <div>
+                  Business Category:{" "}
+                  {hoverInfo.feature.properties.businessCategory}
+                </div>
+              </div>
+            </Popup>
+          )}
+        </Map>
+      </div>
+      <div className="w-full m-auto">
+        <RiskChart lngLat={graphInfo} startDecade={startDecade} endDecade={endDecade} />
+      </div>
+    </div>
   );
 };
 
