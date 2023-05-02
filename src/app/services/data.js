@@ -27,9 +27,8 @@ const readCSV = (filePath) => {
 export const loadData = async () => {
   
   let parsedData = []
-
   if (!isEmpty(data)) {
-    parsedData = data
+    return
   } else {
     parsedData = await readCSV(FILE_PATH)
     parsedData = parsedData.map((obj) => ({
@@ -44,14 +43,11 @@ export const loadData = async () => {
   data = parsedData
   minYear = Math.min(...data.map((obj) => obj.Year))
   maxYear = Math.max(...data.map((obj) => obj.Year))
-  return data
 }
 
 export const getMinYear = () => minYear
 export const getMaxYear = () => maxYear
 
-export const getRiskDataByDecade = (decade) => {
-  const filteredData = data.filter((obj) => obj.Year >= decade && obj.Year <= decade + 9)
-  console.log(decade, filteredData.length)
-  return filteredData
-}
+export const getRiskDataByDecade = (decade) => (data.filter((obj) => obj.Year >= decade && obj.Year <= decade + 9))
+
+export const getRiskDataByLngLat = (lng, lat) => (data.filter((obj) => obj.Long === lng && obj.Lat === lat))

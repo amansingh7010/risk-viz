@@ -1,12 +1,11 @@
 import RiskApp from './components/RiskApp'
 import { loadData, getMaxYear, getMinYear } from './services/data'
 
-let parsedData: any = []
 let minYear: number = -1
 let maxYear: number = -1
 
 const getParsedData = async () => {
-  parsedData = await loadData()
+   await loadData()
    minYear = getMinYear()
    maxYear = getMaxYear()
 }

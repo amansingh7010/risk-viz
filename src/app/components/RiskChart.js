@@ -1,23 +1,30 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { groupBy } from 'lodash'
 import { Line } from "react-chartjs-2";
+import axios from "axios";
 
-const RiskChart = ({ lngLat, startDecade, endDecade }) => {
+const RiskChart = ({ lngLat }) => {
 
   const [aggregateBy, setaggregateBy] = useState("businessCategory")
   const [graphData, setGraphData] = useState([])
 
-  const xLabels = useMemo(() => {
-    const arr = []
-    let currentDecade = startDecade
-    while (currentDecade <= endDecade) {
-      arr.push(currentDecade)
-      currentDecade = currentDecade+10
-    }
-    return arr
-  }, [startDecade, endDecade])
+  useEffect(() => {
 
-  // console.log(lngLat, graphData)
+    if (lngLat) {
+      axios.get(`/api/chart?lng=${lngLat.lng}&lat=${lngLat.lat}`)
+      .then((res) => {
+        
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    }
+
+    
+  }, [lngLat])
+
+
+  console.log(lngLat)
 
   const noDataJsx = (
     <div className="flex justify-center align-center">
