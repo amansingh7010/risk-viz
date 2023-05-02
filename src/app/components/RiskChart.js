@@ -17,7 +17,7 @@ const RiskChart = ({ lngLat, startDecade, endDecade }) => {
     return arr
   }, [startDecade, endDecade])
 
-  console.log(lngLat, graphData)
+  // console.log(lngLat, graphData)
 
   const noDataJsx = (
     <div className="flex justify-center align-center">

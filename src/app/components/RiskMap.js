@@ -12,9 +12,10 @@ import "mapbox-gl/dist/mapbox-gl.css";
 
 import RiskChart from "./RiskChart";
 
-const RiskMap = ({ data, startDecade, endDecade }) => {
+const RiskMap = ({ data }) => {
   const [hoverInfo, setHoverInfo] = useState(null);
   const [graphInfo, setGraphInfo] = useState(null);
+
   const geoJson = useMemo(() => {
     return {
       type: "FeatureCollection",
@@ -126,7 +127,7 @@ const RiskMap = ({ data, startDecade, endDecade }) => {
         </Map>
       </div>
       <div className="w-full m-auto">
-        <RiskChart lngLat={graphInfo} startDecade={startDecade} endDecade={endDecade} />
+        <RiskChart lngLat={graphInfo} />
       </div>
     </div>
   );

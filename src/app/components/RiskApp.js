@@ -1,18 +1,31 @@
-"use client"; // this is a client component
+"use client";
 
-import { useState, useMemo } from "react"
+import { useEffect, useState, useMemo } from "react"
+import axios from "axios"
 
 import RiskMap from "./RiskMap"
 
-const RiskApp = ({ data, minYear, maxYear }) => {
+const RiskApp = ({ minYear, maxYear }) => {
+  const [loading, setLoading] = useState(false)
   const [decade, setDecade] = useState(minYear);
+  const [filteredData, setFilteredData] = useState([])
+
   const startDecade = Math.floor(minYear / 10) * 10;
   const endDecade = Math.ceil(maxYear / 10) * 10;
 
-  const filteredData = useMemo(
-    () => data.filter((obj) => obj.Year >= decade && obj.Year <= decade + 9),
-    [data, decade]
-  );
+  useEffect(() => {
+    setLoading(true)
+    axios.get(`/api/map?decade=${decade}`)
+      .then((res) => {
+        setFilteredData(res.data)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+      .finally(() => {
+        setLoading(false)
+      })
+  }, [decade])
 
   const renderDecades = () => {
     let currentDecade = startDecade;
@@ -26,7 +39,13 @@ const RiskApp = ({ data, minYear, maxYear }) => {
     ));
   };
 
-  // console.log(filteredData)
+
+  const loadingJsx = (
+    <div className="flex justify-center align-center">
+      <div className="w-full text-3xl">Loading...</div>
+    </div>
+  )
+
   return (
     <div className="flex flex-col w-full">
       <div className="w-1/4">
@@ -36,7 +55,7 @@ const RiskApp = ({ data, minYear, maxYear }) => {
         </select>
     </div>
     <div className="py-4">
-      <RiskMap data={filteredData} startDecade={startDecade} endDecade={endDecade} />
+      <RiskMap data={filteredData} />
     </div>
   </div>
   );

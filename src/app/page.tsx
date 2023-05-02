@@ -1,38 +1,14 @@
-import Papa from 'papaparse'
-import fs from 'fs'
-import path from 'path'
 import RiskApp from './components/RiskApp'
+import { loadData, getMaxYear, getMinYear } from './services/data'
 
-const FILE_PATH = `${path.join(process.cwd(), 'data')}/dataset.csv`
-
-const readCSV = (filePath :string) => {
-  const csvFile = fs.readFileSync(filePath)
-  const csvData = csvFile.toString()  
-  return new Promise(resolve => {
-    Papa.parse(csvData, {
-      header: true,
-      complete: results => {
-        resolve(results.data);
-      }
-    });
-  });
-};
-
-let parsedData: any = ''
+let parsedData: any = []
 let minYear: number = -1
 let maxYear: number = -1
 
 const getParsedData = async () => {
-  parsedData = await readCSV(FILE_PATH)
-  parsedData = parsedData.map((obj: any) => ({
-    ...obj,
-    Year: Number(obj.Year),
-    Lat: Number(obj.Lat),
-    Long: Number(obj.Long),
-    'Risk Rating': Number(obj['Risk Rating']),
-  }))
-  minYear = Math.min(...parsedData.map((obj: any) => obj.Year))
-  maxYear = Math.max(...parsedData.map((obj: any) => obj.Year))
+  parsedData = await loadData()
+   minYear = getMinYear()
+   maxYear = getMaxYear()
 }
 
 getParsedData()
@@ -46,7 +22,7 @@ export default function Home() {
         </div>
       </header>
       <div className="z-10 w-full max-w-12xl items-center justify-between lg:flex">
-        <RiskApp data={parsedData} minYear={minYear} maxYear={maxYear} />
+        <RiskApp minYear={minYear} maxYear={maxYear} />
       </div>
     </main>
   )
