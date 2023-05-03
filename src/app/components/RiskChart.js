@@ -55,7 +55,6 @@ const RiskChart = ({ data }) => {
   }, [data])
  
   const groupedData = useMemo(() => (groupBy(chartData, 'Year')), [chartData])
-  console.log(groupedData)
 
   const lineChartData = useMemo(() => {
     const labels = Object.keys(groupedData)

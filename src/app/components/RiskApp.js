@@ -61,12 +61,12 @@ const RiskApp = ({ minYear, maxYear }) => {
         </select>
     </div>
     <div className="w-full m-2">
-      <ul class="flex flex-wrap border-b border-gray-700">
-        <li class="mr-4">
-            <button class={`inline-block rounded-t-lg py-4 px-4 text-sm font-medium text-center ${currentTab === "map" ? selectedTabClasses : nonSelectedTabClasses}`} onClick={() => setCurrentTab("map")}>Risk Map</button>
+      <ul className="flex flex-wrap border-b border-gray-700">
+        <li className="mr-4">
+            <button className={`inline-block rounded-t-lg py-4 px-4 text-sm font-medium text-center ${currentTab === "map" ? selectedTabClasses : nonSelectedTabClasses}`} onClick={() => setCurrentTab("map")}>Risk Map</button>
         </li>
-        <li class="mr-4">
-            <button class={`inline-block rounded-t-lg py-4 px-4 text-sm font-medium text-center ${currentTab === "table" ? selectedTabClasses : nonSelectedTabClasses}`} onClick={() => setCurrentTab("table")}>Risk Table</button>
+        <li className="mr-4">
+            <button className={`inline-block rounded-t-lg py-4 px-4 text-sm font-medium text-center ${currentTab === "table" ? selectedTabClasses : nonSelectedTabClasses}`} onClick={() => setCurrentTab("table")}>Risk Table</button>
         </li>
       </ul>
     </div>
