@@ -6,18 +6,22 @@ const columns = [
   {
     Header: "Asset Name",
     accessor: "Asset Name",
+    width: 50,
   },
   {
     Header: "Business Category",
     accessor: "Business Category",
+    width: 50,
   },
   {
     Header: "Risk Rating",
     accessor: "Risk Rating",
+    width: 50,
   },
   {
     Header: "Risk Factors",
     accessor: "Risk Factors",
+    width: 1000,
   },
 ];
 
@@ -29,7 +33,8 @@ const DefaultColumnFilter = ({
   return (
     <input
       value={filterValue || ''}
-      className="w-3/4 px-2"
+      className="w-3/4 px-2 bg-gray-700 border-gray-200 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
+      onClick={e => e.stopPropagation()}
       onChange={e => {
         setFilter(e.target.value || undefined)
       }}
@@ -91,17 +96,18 @@ const Table = ({ data = [] }) => {
                 <th
                   key={`column-${columnIndex}`}
                   {...column.getHeaderProps(column.getSortByToggleProps())}
-                  className="px-3 py-2 text-left text-gray-600 font-semibold tracking-wider uppercase"
+                  className="px-3 py-2 text-left bg-gray- bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
+                  style={{ tableLayout: column.size }}
                 >
                   {column.render("Header")}
-                  <span>
+                  <span style={{cursor: 'pointer'}}>
                     {column.isSorted
                       ? column.isSortedDesc
                         ? ' 🔽'
                         : ' 🔼'
                       : ''}
                   </span>
-                  <div>{column.canFilter ? column.render('Filter') : null}</div>
+                  <div className="my-1">{column.canFilter ? column.render('Filter') : null}</div>
                 </th>
               ))}
             </tr>
@@ -130,29 +136,29 @@ const Table = ({ data = [] }) => {
         </tbody>
       </table>
 
-      <div className="p-0.5 flex flex-auto justify-evenly">
-        <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+      <div className="p-0.5 flex flex-auto justify-center">
+        <button className="mx-2" onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
           {'<<'}
         </button>
-        <button onClick={() => previousPage()} disabled={!canPreviousPage}>
+        <button className="mx-2" onClick={() => previousPage()} disabled={!canPreviousPage}>
           {'<'}
         </button>
-        <button onClick={() => nextPage()} disabled={!canNextPage}>
+        <button className="mx-2" onClick={() => nextPage()} disabled={!canNextPage}>
           {'>'}
         </button>
-        <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
+        <button className="mx-2" onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
           {'>>'}
         </button>
-        <span>
+        <span className="mx-2">
           Page
           <strong>
             {pageIndex + 1} of {pageOptions.length}
           </strong>
         </span>
-        <span>
+        <span className="mx-2">
           Go to page:
         </span>
-        <span>
+        <span className="mx-2">
           <input
             type="number"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -166,7 +172,7 @@ const Table = ({ data = [] }) => {
         </span>
         <select
           value={pageSize}
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          className="bg-gray-50 mx-2 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           onChange={e => {
             setPageSize(Number(e.target.value))
           }}
