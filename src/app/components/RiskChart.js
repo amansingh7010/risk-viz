@@ -3,17 +3,17 @@ import { groupBy } from 'lodash'
 import { Line } from "react-chartjs-2";
 import axios from "axios";
 
-const RiskChart = ({ lngLat }) => {
+const RiskChart = ({ data }) => {
 
   const [aggregateBy, setaggregateBy] = useState("businessCategory")
-  const [graphData, setGraphData] = useState([])
+  const [chartData, setChartData] = useState([])
 
   useEffect(() => {
 
-    if (lngLat) {
-      axios.get(`/api/chart?lng=${lngLat.lng}&lat=${lngLat.lat}`)
+    if (data) {
+      axios.get(`/api/chart?lng=${data.Long}&lat=${data.Lat}`)
       .then((res) => {
-        
+        setChartData(res.data)
       })
       .catch((err) => {
         console.log(err)
@@ -21,10 +21,7 @@ const RiskChart = ({ lngLat }) => {
     }
 
     
-  }, [lngLat])
-
-
-  console.log(lngLat)
+  }, [data])
 
   const noDataJsx = (
     <div className="flex justify-center align-center">
@@ -32,7 +29,7 @@ const RiskChart = ({ lngLat }) => {
     </div>
   )
 
-  return !lngLat ? noDataJsx : (
+  return !data ? noDataJsx : (
     <h1>Risk Chart</h1>
   );
 };

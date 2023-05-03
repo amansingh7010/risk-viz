@@ -26,10 +26,10 @@ body {
     rgb(var(--background-start-rgb));
 }
 
-.mapboxgl-popup-content {
+/* .mapboxgl-popup-content {
   background-color: #212121 !important;
 }
 
 .mapboxgl-popup-tip {
   border-bottom-color: #212121 !important;
-}
+} */

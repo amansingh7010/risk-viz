@@ -50,4 +50,4 @@ export const getMaxYear = () => maxYear
 
 export const getRiskDataByDecade = (decade) => (data.filter((obj) => obj.Year >= decade && obj.Year <= decade + 9))
 
-export const getRiskDataByLngLat = (lng, lat) => (data.filter((obj) => obj.Long === lng && obj.Lat === lat))
+export const getRiskDataByLngLat = (lng, lat) => (data.filter((obj) => Number(obj.Long) === Number(lng) && Number(obj.Lat) === Number(lat)))

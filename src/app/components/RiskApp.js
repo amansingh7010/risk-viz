@@ -2,8 +2,9 @@
 
 import { useEffect, useState, useMemo } from "react"
 import axios from "axios"
+import dynamic from 'next/dynamic'
 
-import RiskMap from "./RiskMap"
+const RiskMap = dynamic(() => import('./RiskMap'), {ssr: false})
 
 const RiskApp = ({ minYear, maxYear }) => {
   const [loading, setLoading] = useState(false)

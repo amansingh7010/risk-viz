@@ -1,133 +1,80 @@
 "use client";
 
 import { useState, useCallback, useMemo } from "react";
-import Map, {
-  Layer,
-  Source,
-  Popup,
-  ScaleControl,
-  NavigationControl,
-} from "react-map-gl";
-import "mapbox-gl/dist/mapbox-gl.css";
+
+import { MapContainer, TileLayer, Marker, Tooltip } from 'react-leaflet'
+import * as L from "leaflet";
 
 import RiskChart from "./RiskChart";
 
+const LeafIcon = L.Icon.extend({
+  options: {}
+});
+
+const lowRiskIcon = new LeafIcon({
+  iconUrl:
+    "https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|64b007&chf=a,s,ee00FFFF"
+})
+
+const medRiskIcon = new LeafIcon({
+  iconUrl:
+    "https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|ad980a&chf=a,s,ee00FFFF"
+})
+
+const highRiskIcon = new LeafIcon({
+  iconUrl:
+    "https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|bd7b09&chf=a,s,ee00FFFF"
+})
+
+const extremeRiskIcon = new LeafIcon({
+  iconUrl:
+    "https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|bd0909&chf=a,s,ee00FFFF"
+})
+
 const RiskMap = ({ data }) => {
-  const [hoverInfo, setHoverInfo] = useState(null);
-  const [graphInfo, setGraphInfo] = useState(null);
+  const [chartInfo, setChartInfo] = useState(null);
 
-  const geoJson = useMemo(() => {
-    return {
-      type: "FeatureCollection",
-      features: data.map((obj, key) => {
-        let riskRatingColor = "#165c11";
-        if (obj["Risk Rating"] > 0.25 && obj["Risk Rating"] <= 0.5) {
-          riskRatingColor = "#a69214";
-        } else if (obj["Risk Rating"] > 0.5 && obj["Risk Rating"] <= 0.75) {
-          riskRatingColor = "#a65f14";
-        } else {
-          riskRatingColor = "#a61414";
-        }
+  const renderMarkers = useMemo(() => data.map((obj, index) => {
 
-        return {
-          id: `feature-${key}`,
-          type: "Feature",
-          geometry: {
-            type: "Point",
-            coordinates: [obj.Long, obj.Lat],
-          },
-          properties: {
-            riskRating: obj["Risk Rating"],
-            riskRatingColor,
-            assetName: obj["Asset Name"],
-            businessCategory: obj["Business Category"],
-            latitude: obj.Lat,
-            longitude: obj.Long,
-            year: obj.Year,
-            riskFactors: obj["Risk Factors"],
-          },
-        };
-      }),
-    };
-  }, [data]);
+    let markerIcon = lowRiskIcon
 
-  const onHover = useCallback((event) => {
-    const {
-      features,
-      point: { x, y },
-    } = event;
-    const hoveredFeature = features && features[0];
-    setHoverInfo(hoveredFeature && { feature: hoveredFeature, x, y });
-  }, []);
-
-  const onClick = useCallback((event) => {
-    console.log(event)
-    const {
-      lngLat,
-    } = event;
-    setGraphInfo(lngLat);
-  }, []);
-
-  const layerStyle = {
-    id: "point",
-    type: "circle",
-    paint: {
-      "circle-radius": 7,
-      "circle-color": ["get", "riskRatingColor"],
-      "circle-opacity": [
-        "case",
-        ["boolean", ["feature-state", "hover"], false],
-        1,
-        0.4,
-      ],
-    },
-  };
+    if (obj["Risk Rating"] > 0.25 && obj["Risk Rating"] <= 0.5) {
+      markerIcon = medRiskIcon;
+    } else if (obj["Risk Rating"] > 0.5 && obj["Risk Rating"] <= 0.75) {
+      markerIcon = highRiskIcon;
+    } else {
+      markerIcon = extremeRiskIcon
+    }
+    
+    return (
+      <Marker key={index} position={[obj.Lat, obj.Long]} icon={markerIcon} eventHandlers={{click: () => setChartInfo(obj)}}>
+        <Tooltip>
+          <p>
+            <span>Asset Name: </span><span>{obj["Asset Name"]}</span>
+          </p>
+          <p>
+            <span>Business Category: </span><span>{obj["Business Category"]}</span>
+          </p>
+        </Tooltip>
+      </Marker>
+    )
+  }), [data])
+  
+  console.log(chartInfo)
 
   return (
     <div className="flex">
-      <div className="m-2">
-        <Map
-          initialViewState={{
-            longitude: -93,
-            latitude: 40,
-            zoom: 3,
-            pitch: 25,
-          }}
-          style={{ width: 800, height: 600, borderRadius: 10 }}
-          mapStyle="mapbox://styles/mapbox/dark-v10"
-          mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}
-          onMouseMove={onHover}
-          onClick={onClick}
-          interactiveLayerIds={["point"]}
-        >
-          <NavigationControl position="top-left" />
-          <ScaleControl />
-
-          <Source id="riskData" type="geojson" data={geoJson}>
-            <Layer {...layerStyle} />
-          </Source>
-
-          {hoverInfo && (
-            <Popup
-              anchor="top"
-              longitude={hoverInfo.feature.properties.longitude}
-              latitude={hoverInfo.feature.properties.latitude}
-              onClose={() => setHoverInfo(null)}
-              closeButton={false}
-            >
-              <div className="text-white bg-inherit">
-                <div>Asset Name: {hoverInfo.feature.properties.assetName}</div>
-                <div>
-                  Business Category:{" "}
-                  {hoverInfo.feature.properties.businessCategory}
-                </div>
-              </div>
-            </Popup>
-          )}
-        </Map>
+      <div className="m-2 w-full">
+        <MapContainer center={[50, -93]} zoom={3.5} scrollWheelZoom={false} style={{width: 800, height: 600, borderRadius: 10}}>
+          <TileLayer
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          {renderMarkers}
+        </MapContainer>
       </div>
       <div className="w-full m-auto">
-        <RiskChart lngLat={graphInfo} />
+        <RiskChart data={chartInfo} />
       </div>
     </div>
   );
