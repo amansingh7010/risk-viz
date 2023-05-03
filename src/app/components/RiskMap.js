@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo, useEffect } from "react";
 
 import { MapContainer, TileLayer, Marker, Tooltip } from 'react-leaflet'
 import * as L from "leaflet";
@@ -32,8 +32,13 @@ const extremeRiskIcon = new LeafIcon({
 })
 
 const RiskMap = ({ data }) => {
+
   const [chartInfo, setChartInfo] = useState(null);
 
+  useEffect(() => {
+    setChartInfo(null)
+  }, [data])
+  
   const renderMarkers = useMemo(() => data.map((obj, index) => {
 
     let markerIcon = lowRiskIcon
@@ -59,8 +64,6 @@ const RiskMap = ({ data }) => {
       </Marker>
     )
   }), [data])
-  
-  console.log(chartInfo)
 
   return (
     <div className="flex">

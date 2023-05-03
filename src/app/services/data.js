@@ -46,6 +46,7 @@ export const loadData = async () => {
 }
 
 export const getMinYear = () => minYear
+
 export const getMaxYear = () => maxYear
 
 export const getRiskDataByDecade = (decade) => (data.filter((obj) => obj.Year >= decade && obj.Year <= decade + 9))
