@@ -25,7 +25,6 @@ const RiskMap = ({ decade }) => {
     axios
       .get(`/api/map?decade=${decade}&name=${assetName}&category=${category}`)
       .then((res) => {
-        console.log(res.data);
         setData(res.data);
       })
       .catch((err) => {

@@ -1,6 +1,7 @@
-import React, { useState, useCallback, useMemo } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { useTable, usePagination, useFilters, useSortBy } from "react-table";
 import { ChevronUpIcon, ChevronDownIcon, AdjustmentsVerticalIcon } from '@heroicons/react/20/solid'
+import axios from "axios";
 
 const emptyArray = [];
 const columns = [
@@ -41,13 +42,16 @@ const DefaultColumnFilter = ({ column: { filterValue, setFilter } }) => {
   );
 };
 
-const Table = ({ data = [] }) => {
+const Table = ({ decade }) => {
   const defaultColumn = useMemo(
     () => ({
       Filter: DefaultColumnFilter,
     }),
     []
   );
+
+  const [data, setData] = useState([]);
+  const [showFilters, setShowFilters] = useState(false)
 
   const {
     getTableProps,
@@ -76,7 +80,16 @@ const Table = ({ data = [] }) => {
     usePagination
   );
 
-  const [showFilters, setShowFilters] = useState(false)
+  useEffect(() => {
+    axios
+      .get(`/api/map?decade=${decade}&name=All&category=All`)
+      .then((res) => {
+        setData(res.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [decade]);
 
   const handleFilterButtonClick = useCallback((e) => {
     e.stopPropagation()
