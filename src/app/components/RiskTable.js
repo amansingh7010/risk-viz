@@ -7,22 +7,22 @@ const columns = [
   {
     Header: "Asset Name",
     accessor: "Asset Name",
-    width: 50,
+    size: '15%',
   },
   {
     Header: "Business Category",
     accessor: "Business Category",
-    width: 50,
+    size: '10%',
   },
   {
     Header: "Risk Rating",
     accessor: "Risk Rating",
-    width: 50,
+    size: '10%',
   },
   {
     Header: "Risk Factors",
     accessor: "Risk Factors",
-    width: 1000,
+    size: '65%',
   },
 ];
 
@@ -98,7 +98,7 @@ const Table = ({ data = [] }) => {
                   key={`column-${columnIndex}`}
                   {...column.getHeaderProps(column.getSortByToggleProps({ title: undefined }))}
                   className="px-3 py-2 text-left bg-gray- bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
-                  style={{ tableLayout: column.size }}
+                  style={{ width: column.size }}
                 >
                   <div className="flex align-center" style={{ cursor: 'pointer' }}>
                     {column.render("Header")}
@@ -134,7 +134,7 @@ const Table = ({ data = [] }) => {
                     <td
                       key={`cell-${cellKey}`}
                       {...cell.getCellProps({
-                        className: "px-3 py-2 border-t border-gray-200 text-xs",
+                        className: "px-3 py-2 border-t border-gray-200 text-sm",
                       })}
                     >
                       {cell.render("Cell")}
