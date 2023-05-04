@@ -25,11 +25,13 @@ const readCSV = (filePath) => {
 };
 
 export const loadData = async () => {
+  console.log('loading data...')
   let parsedData = []
   if (!isEmpty(data)) {
     return data
   } else {
     parsedData = await readCSV(FILE_PATH)
+    console.log('data loaded')
     data = parsedData.map((obj) => ({
     ...obj,
     Year: Number(obj.Year),
@@ -63,7 +65,6 @@ export const getRiskDataByLngLat = async (lng, lat) => {
   const topRiskFactors = {}
 
   for (const dataKey in groupedData) {
-    
     // create map of all risk factors with highest risk ratings for each year
     const topRiskFactorsMap = new Map()
     

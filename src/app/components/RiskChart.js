@@ -29,6 +29,11 @@ Chart.defaults.scale.grid.display = false
 const RiskChart = ({ data }) => {
   const [chartData, setChartData] = useState([])
 
+  const getTopRiskFactors = useCallback((label) => {
+    const topRiskFactors = chartData.topRiskFactors[label]
+    return `Top 3 Risk Factors:\n${Object.keys(topRiskFactors).join(", ")}`
+  }, [chartData])
+
   const options = useMemo(() => ({
     responsive: true,
     plugins: {
@@ -45,7 +50,7 @@ const RiskChart = ({ data }) => {
         }
       }
     },
-  }), []);
+  }), [getTopRiskFactors]);
 
   useEffect(() => {
     if (data) {
@@ -69,11 +74,6 @@ const RiskChart = ({ data }) => {
         }
       ],
     }
-  }, [chartData])
-
-  const getTopRiskFactors = useCallback((label) => {
-    const topRiskFactors = chartData.topRiskFactors[label]
-    return `Top 3 Risk Factors:\n${Object.keys(topRiskFactors).join(", ")}`
   }, [chartData])
 
   const noDataJsx = (
