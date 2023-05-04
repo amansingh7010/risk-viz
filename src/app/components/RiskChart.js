@@ -83,7 +83,13 @@ const RiskChart = ({ data }) => {
   )
 
   return !data ? noDataJsx : (
-    <Line options={options} data={lineChartData} />
+    <div>
+      <p>Asset Name: {data["Asset Name"]}</p>
+      <p>Business Category: {data["Business Category"]}</p>
+      <div>
+        <Line options={options} data={lineChartData} />
+      </div>
+    </div>
   );
 };
 
