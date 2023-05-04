@@ -28,28 +28,34 @@ export const loadData = async () => {
   console.log('loading data...')
   let parsedData = []
   if (!isEmpty(data)) {
-    return
+    return data
   } else {
     parsedData = await readCSV(FILE_PATH)
     console.log('data loaded')
-    parsedData = parsedData.map((obj) => ({
+    data = parsedData.map((obj) => ({
     ...obj,
     Year: Number(obj.Year),
     Lat: Number(obj.Lat),
     Long: Number(obj.Long),
     'Risk Rating': Number(obj['Risk Rating']),
     }))
+
+    minYear = Math.min(...data.map((obj) => obj.Year))
+    maxYear = Math.max(...data.map((obj) => obj.Year))
   }
 
-  data = parsedData
-  minYear = Math.min(...data.map((obj) => obj.Year))
-  maxYear = Math.max(...data.map((obj) => obj.Year))
+  return data
 }
 
 export const getMinYear = () => minYear
-
 export const getMaxYear = () => maxYear
 
-export const getRiskDataByDecade = (decade) => (data.filter((obj) => obj.Year >= decade && obj.Year <= decade + 9))
+export const getRiskDataByDecade = async (decade) => {
+  const loadedData = await loadData()
+  return loadedData.filter((obj) => obj.Year >= decade && obj.Year <= decade + 9)
+}
 
-export const getRiskDataByLngLat = (lng, lat) => (data.filter((obj) => Number(obj.Long) === Number(lng) && Number(obj.Lat) === Number(lat)))
+export const getRiskDataByLngLat = async (lng, lat) => {
+  const loadedData = await loadData()
+  return loadedData.filter((obj) => Number(obj.Long) === Number(lng) && Number(obj.Lat) === Number(lat))
+}
