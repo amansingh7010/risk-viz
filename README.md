@@ -16,11 +16,11 @@ https://risk-viz-ten.vercel.app/
 
 ### 1. [GET] /map?decade=\<DECADE>&name=\<NAME>&category=\<CATEGORY>
 
-### Returns data filtered by Decade, Asset Name and Business Category
+#### Returns data filtered by Decade, Asset Name and Business Category
 
 ### 2. [GET] /chart?lat=\<LATTITUDE>&lng=\<LONGITUDE>&name=\<NAME>&category=\<CATEGORY>
 
-### Returns data filtered by Lattitude, Longitude, Asset Name and Business Category
+#### Returns data filtered by Lattitude, Longitude, Asset Name and Business Category
 
 #
 
