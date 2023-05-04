@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { groupBy } from "lodash";
 import { Line } from "react-chartjs-2";
 import axios from "axios";
 import {

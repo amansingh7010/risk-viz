@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import dynamic from "next/dynamic";
 import { MapIcon, TableCellsIcon } from '@heroicons/react/20/solid'
@@ -13,7 +13,6 @@ const nonSelectedTabClasses =
   "text-gray-400 hover:bg-gray-800 hover:text-gray-300";
 
 const RiskApp = ({ minYear, maxYear }) => {
-  const [loading, setLoading] = useState(false);
   const [decade, setDecade] = useState(minYear);
   const [filteredData, setFilteredData] = useState([]);
   const [currentTab, setCurrentTab] = useState("map");
@@ -22,7 +21,6 @@ const RiskApp = ({ minYear, maxYear }) => {
   const endDecade = Math.ceil(maxYear / 10) * 10;
 
   useEffect(() => {
-    setLoading(true);
     axios
       .get(`/api/map?decade=${decade}`)
       .then((res) => {
@@ -31,9 +29,6 @@ const RiskApp = ({ minYear, maxYear }) => {
       .catch((err) => {
         console.log(err);
       })
-      .finally(() => {
-        setLoading(false);
-      });
   }, [decade]);
 
   const renderDecades = () => {
@@ -49,12 +44,6 @@ const RiskApp = ({ minYear, maxYear }) => {
       </option>
     ));
   };
-
-  const loadingJsx = (
-    <div className="flex justify-center align-center">
-      <div className="w-full text-3xl">Loading...</div>
-    </div>
-  );
 
   return (
     <div className="flex flex-col w-full">
