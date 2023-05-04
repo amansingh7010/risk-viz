@@ -6,7 +6,7 @@ https://github.com/RiskThinking/work-samples/blob/main/UI-UX-Developer.md
 
 #
 
-## Deployment:
+## Deployment
 
 https://risk-viz-ten.vercel.app/
 
@@ -14,7 +14,7 @@ https://risk-viz-ten.vercel.app/
 
 ## API
 
-### 1. [GET] /map?decade=\<DECADE>
+### 1. [GET] /map?decade=\<DECADE>&name=\<NAME>&category=\<CATEGORY>
 
 ### Returns data filtered by decades
 
@@ -35,4 +35,5 @@ https://risk-viz-ten.vercel.app/
 - https://react-table-v7.tanstack.com/docs/overview
 - https://lodash.com/docs/4.17.15
 - https://codesandbox.io/s/28l0z
-- https://developers.google.com/chart/infographics/docs/dynamic_icons#pins
+- https://heroicons.com/
+- https://stackoverflow.com/

@@ -47,11 +47,41 @@ export const loadData = async () => {
 export const getMinYear = () => minYear;
 export const getMaxYear = () => maxYear;
 
-export const getRiskDataByDecade = async (decade) => {
+export const getRiskData = async (decade, name, category) => {
   const loadedData = await loadData();
-  return loadedData.filter(
+  const filteredDataByDecade = loadedData.filter(
     (obj) => obj.Year >= decade && obj.Year <= decade + 9
   );
+  const names = [
+    ...new Set(filteredDataByDecade.map((item) => item["Asset Name"])),
+  ];
+  const categories = [
+    ...new Set(filteredDataByDecade.map((item) => item["Business Category"])),
+  ];
+
+  if (category === "All" && name === "All") {
+    return {
+      data: filteredDataByDecade,
+      assetNames: names,
+      categories: categories,
+    };
+  } else {
+    return {
+      data: filteredDataByDecade.filter((obj) => {
+        if (name != "All" && category === "All") {
+          return obj["Asset Name"] === name;
+        } else if (name === "All" && category !== "All") {
+          return obj["Business Category"] === category;
+        } else {
+          return (
+            obj["Asset Name"] === name && obj["Business Category"] === category
+          );
+        }
+      }),
+      assetNames: names,
+      categories: categories,
+    };
+  }
 };
 
 export const getRiskDataByLngLat = async (lng, lat) => {

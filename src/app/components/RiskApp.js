@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { useState } from "react";
 import dynamic from "next/dynamic";
 import { MapIcon, TableCellsIcon, CalendarDaysIcon } from '@heroicons/react/20/solid'
 
@@ -14,22 +13,10 @@ const nonSelectedTabClasses =
 
 const RiskApp = ({ minYear, maxYear }) => {
   const [decade, setDecade] = useState(minYear);
-  const [filteredData, setFilteredData] = useState([]);
   const [currentTab, setCurrentTab] = useState("map");
 
   const startDecade = Math.floor(minYear / 10) * 10;
   const endDecade = Math.ceil(maxYear / 10) * 10;
-
-  useEffect(() => {
-    axios
-      .get(`/api/map?decade=${decade}`)
-      .then((res) => {
-        setFilteredData(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-  }, [decade]);
 
   const renderDecades = () => {
     let currentDecade = startDecade;
@@ -105,9 +92,9 @@ const RiskApp = ({ minYear, maxYear }) => {
       </div>
       <div className="py-4">
         {currentTab === "map" ? (
-          <RiskMap data={filteredData} />
+          <RiskMap decade={decade} />
         ) : (
-          <RiskTable data={filteredData} />
+          <RiskTable decade={decade} />
         )}
       </div>
     </div>
