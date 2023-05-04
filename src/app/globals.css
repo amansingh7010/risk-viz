@@ -25,3 +25,7 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+.extreme-risk-icon {
+  color: '#000 !important'
+}

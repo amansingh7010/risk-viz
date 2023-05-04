@@ -1,36 +1,16 @@
 "use client";
 
-import { useState, useCallback, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { MapContainer, TileLayer, Marker, Tooltip } from "react-leaflet";
-import * as L from "leaflet";
+import { MapPinIcon } from '@heroicons/react/24/solid'
 
 import RiskChart from "./RiskChart";
 import {
-  LOW_RISK_ICON,
-  MED_RISK_ICON,
-  HIGH_RISK_ICON,
-  EXTREME_RISK_ICON,
-} from "../../constants/constants";
-
-const LeafIcon = L.Icon.extend({
-  options: {},
-});
-
-const lowRiskIcon = new LeafIcon({
-  iconUrl: LOW_RISK_ICON,
-});
-
-const medRiskIcon = new LeafIcon({
-  iconUrl: MED_RISK_ICON,
-});
-
-const highRiskIcon = new LeafIcon({
-  iconUrl: HIGH_RISK_ICON,
-});
-
-const extremeRiskIcon = new LeafIcon({
-  iconUrl: EXTREME_RISK_ICON,
-});
+  lowRiskIcon,
+  medRiskIcon,
+  highRiskIcon,
+  extremeRiskIcon
+} from "../../constants/icons";
 
 const RiskMap = ({ data }) => {
   const [chartInfo, setChartInfo] = useState(null);
@@ -90,6 +70,24 @@ const RiskMap = ({ data }) => {
           />
           {renderMarkers}
         </MapContainer>
+        <div className="flex w-3/4 m-4 justify-evenly">
+          <div className="flex">
+            <span><MapPinIcon style={{ height: 24, width: 24, color: '#64b007' }} /></span>
+            <span>Low Risk</span>
+          </div>
+           <div className="flex">
+            <span><MapPinIcon style={{ height: 24, width: 24, color: '#ad980a' }} /></span>
+            <span>Medium Risk</span>
+          </div>
+           <div className="flex">
+            <span><MapPinIcon style={{ height: 24, width: 24, color: '#bd7b09' }} /></span>
+            <span>High Risk</span>
+          </div>
+           <div className="flex">
+            <span><MapPinIcon style={{ height: 24, width: 24, color: '#bd0909' }} /></span>
+            <span>Extreme Risk</span>
+          </div>
+        </div>
       </div>
       <div className="w-full m-auto">
         <RiskChart data={chartInfo} />

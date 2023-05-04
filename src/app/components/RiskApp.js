@@ -3,6 +3,7 @@
 import { useEffect, useState, useMemo } from "react";
 import axios from "axios";
 import dynamic from "next/dynamic";
+import { MapIcon, TableCellsIcon } from '@heroicons/react/20/solid'
 
 const RiskMap = dynamic(() => import("./RiskMap"), { ssr: false });
 const RiskTable = dynamic(() => import("./RiskTable"), { ssr: false });
@@ -85,7 +86,11 @@ const RiskApp = ({ minYear, maxYear }) => {
               }`}
               onClick={() => setCurrentTab("map")}
             >
-              Risk Map
+              <div className="flex align-center">
+                <MapIcon className="w-5" />
+                <span className="mx-1.5">Risk Map</span>
+              </div>
+              
             </button>
           </li>
           <li className="mr-4">
@@ -97,7 +102,10 @@ const RiskApp = ({ minYear, maxYear }) => {
               }`}
               onClick={() => setCurrentTab("table")}
             >
-              Risk Table
+              <div className="flex align-center">
+                <TableCellsIcon className="w-5" />
+                <span className="mx-1.5">Risk Table</span>
+              </div>
             </button>
           </li>
         </ul>

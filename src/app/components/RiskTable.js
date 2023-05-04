@@ -1,5 +1,6 @@
-import React, { useMemo } from "react";
+import React, { useState, useCallback, useMemo } from "react";
 import { useTable, usePagination, useFilters, useSortBy } from "react-table";
+import { ChevronUpIcon, ChevronDownIcon, AdjustmentsVerticalIcon } from '@heroicons/react/20/solid'
 
 const emptyArray = [];
 const columns = [
@@ -75,6 +76,13 @@ const Table = ({ data = [] }) => {
     usePagination
   );
 
+  const [showFilters, setShowFilters] = useState(false)
+
+  const handleFilterButtonClick = useCallback((e) => {
+    e.stopPropagation()
+    setShowFilters(!showFilters)
+  }, [showFilters])
+
   return (
     <>
       <table {...getTableProps()} className="table-fixed w-full">
@@ -88,21 +96,29 @@ const Table = ({ data = [] }) => {
               {headerGroup.headers.map((column, columnIndex) => (
                 <th
                   key={`column-${columnIndex}`}
-                  {...column.getHeaderProps(column.getSortByToggleProps())}
+                  {...column.getHeaderProps(column.getSortByToggleProps({ title: undefined }))}
                   className="px-3 py-2 text-left bg-gray- bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
                   style={{ tableLayout: column.size }}
                 >
-                  {column.render("Header")}
-                  <span style={{ cursor: "pointer" }}>
-                    {column.isSorted
-                      ? column.isSortedDesc
-                        ? " 🔽"
-                        : " 🔼"
-                      : ""}
-                  </span>
-                  <div className="my-1">
-                    {column.canFilter ? column.render("Filter") : null}
+                  <div className="flex align-center" style={{ cursor: 'pointer' }}>
+                    {column.render("Header")}
+                    <span style={{ cursor: "pointer" }}>
+                      {column.isSorted
+                        ? column.isSortedDesc
+                          ? <ChevronUpIcon style={{ width: 30 }} />
+                          : <ChevronDownIcon style={{ width: 30 }} />
+                        : ""}
+                    </span>
+                    <button className="mx-1.5 hover:bg-gray-800 hover:text-gray-300" onClick={handleFilterButtonClick}>
+                      <AdjustmentsVerticalIcon className="p-0.5 w-6" />
+                    </button>
                   </div>
+
+                  {showFilters && (
+                    <div className="my-1">
+                      {column.canFilter ? column.render("Filter") : null}
+                    </div>
+                  )}
                 </th>
               ))}
             </tr>
