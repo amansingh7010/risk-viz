@@ -5,14 +5,16 @@ let minYear: number = -1
 let maxYear: number = -1
 
 const getParsedData = async () => {
-   await loadData()
+  //  await loadData()
    minYear = getMinYear()
    maxYear = getMaxYear()
 }
 
-getParsedData()
+// getParsedData()
 
-export default function Home() {
+export default async function Home() {
+
+ await loadData()
  return (
     <main className="flex min-h-screen flex-col items-center justify-start p-20">
       <header>
@@ -21,7 +23,7 @@ export default function Home() {
         </div>
       </header>
       <div className="z-10 w-full max-w-12xl items-center justify-between lg:flex">
-        <RiskApp minYear={minYear} maxYear={maxYear} />
+        <RiskApp minYear={getMinYear()} maxYear={getMaxYear()} />
       </div>
     </main>
   )

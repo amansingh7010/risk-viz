@@ -25,12 +25,13 @@ const readCSV = (filePath) => {
 };
 
 export const loadData = async () => {
-  
+  console.log('loading data...')
   let parsedData = []
   if (!isEmpty(data)) {
     return
   } else {
     parsedData = await readCSV(FILE_PATH)
+    console.log('data loaded')
     parsedData = parsedData.map((obj) => ({
     ...obj,
     Year: Number(obj.Year),
