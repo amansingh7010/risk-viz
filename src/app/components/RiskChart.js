@@ -51,7 +51,6 @@ const RiskChart = ({ data }) => {
     if (data) {
       axios.get(`/api/chart?lng=${data.Long}&lat=${data.Lat}`)
       .then((res) => {
-        console.log(res.data)
         setChartData(res.data)
       })
       .catch((err) => {
@@ -73,8 +72,6 @@ const RiskChart = ({ data }) => {
   }, [chartData])
 
   const getTopRiskFactors = useCallback((label) => {
-    console.log(label)
-    console.log(chartData.topRiskFactors)
     const topRiskFactors = chartData.topRiskFactors[label]
     return `Top 3 Risk Factors:\n${Object.keys(topRiskFactors).join(", ")}`
   }, [chartData])
