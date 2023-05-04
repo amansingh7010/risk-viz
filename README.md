@@ -13,7 +13,7 @@ https://risk-viz-ten.vercel.app/
 ### 1. [GET] /map?decade=\<DECADE>
 ### Returns data filtered by decades
 
-### 2. [GET] /chart?lat=\<LATTITUDE>&long=\<LONGITUDE>
+### 2. [GET] /chart?lat=\<LATTITUDE>&lng=\<LONGITUDE>
 ###  Returns data filtered by lattitude and longitude
 
 #
