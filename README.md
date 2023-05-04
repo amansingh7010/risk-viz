@@ -19,7 +19,7 @@ https://risk-viz-ten.vercel.app/
 #
 ## Resources and References
 - https://nextjs.org/docs
-- https://v2.tailwindcss.com/docs
+- https://tailwindcss.com/docs
 - https://leafletjs.com/reference.html
 - https://react-leaflet.js.org/docs/api-map/
 - https://docs.mapbox.com/api/overview/
