@@ -26,26 +26,32 @@ Chart.defaults.borderColor = '#36A2EB';
 Chart.defaults.color = '#fff';
 Chart.defaults.scale.grid.display = false
 
-const options = {
-  responsive: true,
-  plugins: {
-    legend: {
-      position: 'top',
-    },
-    title: {
-      display: true,
-      text: 'Risk Rating Change',
-    },
-  },
-};
-
 const RiskChart = ({ data }) => {
   const [chartData, setChartData] = useState([])
+
+  const options = useMemo(() => ({
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+      title: {
+        display: true,
+        text: 'Risk Rating Change',
+      },
+      tooltip: {
+        callbacks: {
+          afterBody: (context) => getTopRiskFactors(context[0].label)
+        }
+      }
+    },
+  }), []);
 
   useEffect(() => {
     if (data) {
       axios.get(`/api/chart?lng=${data.Long}&lat=${data.Lat}`)
       .then((res) => {
+        console.log(res.data)
         setChartData(res.data)
       })
       .catch((err) => {
@@ -53,26 +59,25 @@ const RiskChart = ({ data }) => {
       })
     }
   }, [data])
- 
-  const groupedData = useMemo(() => (groupBy(chartData, 'Year')), [chartData])
 
   const lineChartData = useMemo(() => {
-    const labels = Object.keys(groupedData)
-
     return {
-      labels,
+      labels: chartData.labels,
       datasets: [
         {
           label: 'Average Risk Rating',
-          data: labels.map((lab) => groupedData[lab].reduce((total, next) => total + next["Risk Rating"], 0)/groupedData[lab].length)
+          data: chartData.averageRiskRating
         }
       ],
-      borderColor: 'rgb(255, 99, 132)',
-      backgroundColor: 'rgba(255, 99, 132, 0.5)',
     }
-  }, [groupedData])
+  }, [chartData])
 
-  console.log(lineChartData)
+  const getTopRiskFactors = useCallback((label) => {
+    console.log(label)
+    console.log(chartData.topRiskFactors)
+    const topRiskFactors = chartData.topRiskFactors[label]
+    return `Top 3 Risk Factors:\n${Object.keys(topRiskFactors).join(", ")}`
+  }, [chartData])
 
   const noDataJsx = (
     <div className="flex justify-center align-center">
