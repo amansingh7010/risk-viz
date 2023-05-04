@@ -12,7 +12,7 @@ export default async function Home() {
         <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
           <div className="flex">
             <ShieldExclamationIcon className="w-9 mr-4" />
-            <h1 className="text-3xl font-bold tracking-tight text-white">RiskThinking UI/UX Work Sample</h1>
+            <h1 className="text-3xl font-bold tracking-tight text-white">Climate Risk Rating</h1>
           </div>
         </div>
       </header>
