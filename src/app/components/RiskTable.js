@@ -1,5 +1,5 @@
-import React, { useState, useMemo } from "react";
-import { useTable, usePagination, useFilters, useSortBy } from "react-table"
+import React, { useMemo } from "react";
+import { useTable, usePagination, useFilters, useSortBy } from "react-table";
 
 const emptyArray = [];
 const columns = [
@@ -26,33 +26,28 @@ const columns = [
 ];
 
 // Define a default UI for filtering
-const DefaultColumnFilter = ({
-  column: { filterValue, setFilter },
-}) => {
-
+const DefaultColumnFilter = ({ column: { filterValue, setFilter } }) => {
   return (
     <input
-      value={filterValue || ''}
+      value={filterValue || ""}
       className="w-3/4 px-2 bg-gray-700 border-gray-200 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
-      onClick={e => e.stopPropagation()}
-      onChange={e => {
-        setFilter(e.target.value || undefined)
+      onClick={(e) => e.stopPropagation()}
+      onChange={(e) => {
+        setFilter(e.target.value || undefined);
       }}
       placeholder={`Search...`}
     />
-  )
-}
+  );
+};
 
 const Table = ({ data = [] }) => {
-
   const defaultColumn = useMemo(
     () => ({
       Filter: DefaultColumnFilter,
     }),
     []
-  )
+  );
 
-  
   const {
     getTableProps,
     getTableBodyProps,
@@ -77,10 +72,8 @@ const Table = ({ data = [] }) => {
     },
     useFilters,
     useSortBy,
-    usePagination,
+    usePagination
   );
-
-
 
   return (
     <>
@@ -100,14 +93,16 @@ const Table = ({ data = [] }) => {
                   style={{ tableLayout: column.size }}
                 >
                   {column.render("Header")}
-                  <span style={{cursor: 'pointer'}}>
+                  <span style={{ cursor: "pointer" }}>
                     {column.isSorted
                       ? column.isSortedDesc
-                        ? ' 🔽'
-                        : ' 🔼'
-                      : ''}
+                        ? " 🔽"
+                        : " 🔼"
+                      : ""}
                   </span>
-                  <div className="my-1">{column.canFilter ? column.render('Filter') : null}</div>
+                  <div className="my-1">
+                    {column.canFilter ? column.render("Filter") : null}
+                  </div>
                 </th>
               ))}
             </tr>
@@ -137,17 +132,33 @@ const Table = ({ data = [] }) => {
       </table>
 
       <div className="p-0.5 flex flex-auto justify-center">
-        <button className="mx-2" onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
-          {'<<'}
+        <button
+          className="mx-2"
+          onClick={() => gotoPage(0)}
+          disabled={!canPreviousPage}
+        >
+          {"<<"}
         </button>
-        <button className="mx-2" onClick={() => previousPage()} disabled={!canPreviousPage}>
-          {'<'}
+        <button
+          className="mx-2"
+          onClick={() => previousPage()}
+          disabled={!canPreviousPage}
+        >
+          {"<"}
         </button>
-        <button className="mx-2" onClick={() => nextPage()} disabled={!canNextPage}>
-          {'>'}
+        <button
+          className="mx-2"
+          onClick={() => nextPage()}
+          disabled={!canNextPage}
+        >
+          {">"}
         </button>
-        <button className="mx-2" onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
-          {'>>'}
+        <button
+          className="mx-2"
+          onClick={() => gotoPage(pageCount - 1)}
+          disabled={!canNextPage}
+        >
+          {">>"}
         </button>
         <span className="mx-2">
           Page
@@ -155,29 +166,27 @@ const Table = ({ data = [] }) => {
             {pageIndex + 1} of {pageOptions.length}
           </strong>
         </span>
-        <span className="mx-2">
-          Go to page:
-        </span>
+        <span className="mx-2">Go to page:</span>
         <span className="mx-2">
           <input
             type="number"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             defaultValue={pageIndex + 1}
-            onChange={e => {
-              const page = e.target.value ? Number(e.target.value) - 1 : 0
-              gotoPage(page)
+            onChange={(e) => {
+              const page = e.target.value ? Number(e.target.value) - 1 : 0;
+              gotoPage(page);
             }}
-            style={{ width: '100px' }}
+            style={{ width: "100px" }}
           />
         </span>
         <select
           value={pageSize}
           className="bg-gray-50 mx-2 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          onChange={e => {
-            setPageSize(Number(e.target.value))
+          onChange={(e) => {
+            setPageSize(Number(e.target.value));
           }}
         >
-          {[10, 20, 30, 40, 50].map(pageSize => (
+          {[10, 20, 30, 40, 50].map((pageSize) => (
             <option key={pageSize} value={pageSize}>
               Show {pageSize}
             </option>

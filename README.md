@@ -1,23 +1,31 @@
 ## Introduction
+
 This is the solution to the following Work Sample
 
 https://github.com/RiskThinking/work-samples/blob/main/UI-UX-Developer.md
 
 #
-## Deployment: 
+
+## Deployment:
+
 https://risk-viz-ten.vercel.app/
 
 #
 
 ## API
+
 ### 1. [GET] /map?decade=\<DECADE>
+
 ### Returns data filtered by decades
 
 ### 2. [GET] /chart?lat=\<LATTITUDE>&lng=\<LONGITUDE>
-###  Returns data filtered by lattitude and longitude
+
+### Returns data filtered by lattitude and longitude
 
 #
+
 ## Resources and References
+
 - https://nextjs.org/docs
 - https://tailwindcss.com/docs
 - https://leafletjs.com/reference.html
