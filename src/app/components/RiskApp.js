@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import dynamic from "next/dynamic";
-import { MapIcon, TableCellsIcon } from '@heroicons/react/20/solid'
+import { MapIcon, TableCellsIcon, CalendarDaysIcon } from '@heroicons/react/20/solid'
 
 const RiskMap = dynamic(() => import("./RiskMap"), { ssr: false });
 const RiskTable = dynamic(() => import("./RiskTable"), { ssr: false });
@@ -50,9 +50,13 @@ const RiskApp = ({ minYear, maxYear }) => {
       <div className="w-1/4 p-2">
         <label
           htmlFor="countries"
-          className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          className="block mb-2 text-md font-medium text-gray-900 dark:text-white"
         >
-          Select a decade
+          <div className="flex">
+            <CalendarDaysIcon className="mr-3 w-6" />
+            <span>Select a decade</span>
+          </div>
+          
         </label>
         <select
           onChange={(e) => {

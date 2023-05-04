@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Line } from "react-chartjs-2";
 import axios from "axios";
+import { GlobeAmericasIcon, BriefcaseIcon, BuildingOfficeIcon } from '@heroicons/react/24/solid'
 import {
   Chart,
   CategoryScale,
@@ -85,6 +86,7 @@ const RiskChart = ({ data }) => {
 
   const noDataJsx = (
     <div className="flex justify-center align-center">
+      <GlobeAmericasIcon className="mr-4 w-8" />
       <span className="text-3xl">Select a point on the map</span>
     </div>
   );
@@ -93,8 +95,14 @@ const RiskChart = ({ data }) => {
     noDataJsx
   ) : (
     <div>
-      <p>Asset Name: {data["Asset Name"]}</p>
-      <p>Business Category: {data["Business Category"]}</p>
+      <div className="flex">
+        <BriefcaseIcon className="mr-1 w-4" />
+        <span> Name: {data["Asset Name"]}</span>
+      </div>
+      <div className="flex">
+        <BuildingOfficeIcon className="mr-1 w-4" />
+        <span> Category: {data["Business Category"]}</span>
+      </div>
       <div>
         <Line options={options} data={lineChartData} />
       </div>
