@@ -33,7 +33,7 @@ const RiskChart = ({ data }) => {
   const getTopRiskFactors = useCallback(
     (label) => {
       const topRiskFactors = chartData.topRiskFactors[label];
-      return `Top 3 Risk Factors:\n${Object.keys(topRiskFactors).join(", ")}`;
+      return `Top 3 Risk Factors:\n${Object.keys(topRiskFactors).join("\n")}`;
     },
     [chartData]
   );
