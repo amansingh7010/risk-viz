@@ -35,7 +35,7 @@ const RiskMap = ({ decade }) => {
 
   useEffect(() => {
     setChartInfo(null);
-  }, [decade]);
+  }, [decade, assetName, category]);
 
   const renderAssetNames = useCallback(() => {
     const names = data.assetNames.map((name) => (
@@ -184,7 +184,7 @@ const RiskMap = ({ decade }) => {
         </div>
       </div>
       <div className="w-full m-auto">
-        <RiskChart data={chartInfo} />
+        <RiskChart data={chartInfo} name={assetName} category={category} />
       </div>
     </div>
   );

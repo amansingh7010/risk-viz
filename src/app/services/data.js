@@ -47,7 +47,7 @@ export const loadData = async () => {
 export const getMinYear = () => minYear;
 export const getMaxYear = () => maxYear;
 
-export const getRiskData = async (decade, name, category) => {
+export const getMapData = async (decade, name, category) => {
   const loadedData = await loadData();
   const filteredDataByDecade = loadedData.filter(
     (obj) => obj.Year >= decade && obj.Year <= decade + 9
@@ -84,11 +84,30 @@ export const getRiskData = async (decade, name, category) => {
   }
 };
 
-export const getRiskDataByLngLat = async (lng, lat) => {
+export const getChartData = async (lng, lat, name, category) => {
   const loadedData = await loadData();
-  const filteredData = loadedData.filter(
+  const filteredDataByLatLong = loadedData.filter(
     (obj) => Number(obj.Long) === Number(lng) && Number(obj.Lat) === Number(lat)
   );
+
+  let filteredData = []
+
+  if (name == "All" && category === "All") {
+    filteredData = filteredDataByLatLong
+  } else {
+    filteredData = filteredDataByLatLong.filter((obj) => {
+      if (name != "All" && category === "All") {
+        return obj["Asset Name"] === name;
+      } else if (name === "All" && category !== "All") {
+        return obj["Business Category"] === category;
+      } else {
+        return (
+          obj["Asset Name"] === name && obj["Business Category"] === category
+        );
+      }
+    })
+  }
+
   const groupedData = groupBy(filteredData, "Year");
   const labels = Object.keys(groupedData);
   const averageRiskRating = labels.map(

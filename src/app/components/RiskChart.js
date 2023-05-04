@@ -27,8 +27,21 @@ Chart.defaults.borderColor = "#36A2EB";
 Chart.defaults.color = "#fff";
 Chart.defaults.scale.grid.display = false;
 
-const RiskChart = ({ data }) => {
+const RiskChart = ({ data, name, category }) => {
   const [chartData, setChartData] = useState([]);
+
+  useEffect(() => {
+    if (data) {
+      axios
+        .get(`/api/chart?lng=${data.Long}&lat=${data.Lat}&name=${name}&category=${category}`)
+        .then((res) => {
+          setChartData(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [data, name, category]);
 
   const getTopRiskFactors = useCallback(
     (label) => {
@@ -58,19 +71,6 @@ const RiskChart = ({ data }) => {
     }),
     [getTopRiskFactors]
   );
-
-  useEffect(() => {
-    if (data) {
-      axios
-        .get(`/api/chart?lng=${data.Long}&lat=${data.Lat}`)
-        .then((res) => {
-          setChartData(res.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  }, [data]);
 
   const lineChartData = useMemo(() => {
     return {
