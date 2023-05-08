@@ -98,7 +98,7 @@ const Table = ({ decade }) => {
 
   return (
     <>
-      <table {...getTableProps()} className="table-fixed w-full">
+      <table {...getTableProps()} className="table-fixed w-full h-90">
         <thead>
           {headerGroups.map((headerGroup, headerGroupIndex) => (
             <tr
@@ -160,57 +160,56 @@ const Table = ({ decade }) => {
         </tbody>
       </table>
 
-      <div className="p-0.5 flex flex-auto justify-center">
+      <div className="p-0.5 flex flex-auto justify-center items-center text-xs md:text-md">
         <button
-          className="mx-2"
+          className="mx-0.5 md:mx-2"
           onClick={() => gotoPage(0)}
           disabled={!canPreviousPage}
         >
           {"<<"}
         </button>
         <button
-          className="mx-2"
+          className="mx-0.5 md:mx-2"
           onClick={() => previousPage()}
           disabled={!canPreviousPage}
         >
           {"<"}
         </button>
         <button
-          className="mx-2"
+          className="mx-0.5 md:mx-2"
           onClick={() => nextPage()}
           disabled={!canNextPage}
         >
           {">"}
         </button>
         <button
-          className="mx-2"
+          className="mx-0.5 md:mx-2"
           onClick={() => gotoPage(pageCount - 1)}
           disabled={!canNextPage}
         >
           {">>"}
         </button>
-        <span className="mx-2">
+        <span className="mx-0.5 md:mx-2">
           Page
           <strong>
             {pageIndex + 1} of {pageOptions.length}
           </strong>
         </span>
-        <span className="mx-2">Go to page:</span>
-        <span className="mx-2">
+        <span className="mx-0.5 md:mx-2">Go to page:</span>
+        <span className="mx-0.5 md:mx-2">
           <input
             type="number"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            className="bg-gray-50 border mx-0.5 md:mx-2 border-gray-300 text-gray-900 text-xs md:text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 w-10 md:w-20"
             defaultValue={pageIndex + 1}
             onChange={(e) => {
               const page = e.target.value ? Number(e.target.value) - 1 : 0;
               gotoPage(page);
             }}
-            style={{ width: "100px" }}
           />
         </span>
         <select
           value={pageSize}
-          className="bg-gray-50 mx-2 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          className="bg-gray-50 mx-0.5 md:mx-2 border border-gray-300 text-gray-900 text-xs md:text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           onChange={(e) => {
             setPageSize(Number(e.target.value));
           }}

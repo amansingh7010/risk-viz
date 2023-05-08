@@ -34,7 +34,7 @@ const RiskApp = ({ minYear, maxYear }) => {
 
   return (
     <div className="flex flex-col w-full">
-      <div className="w-1/4 p-2">
+      <div className="w-full md:w-1/4 p-2">
         <label
           htmlFor="countries"
           className="block mb-2 text-md font-medium text-gray-900 dark:text-white"

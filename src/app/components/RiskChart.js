@@ -85,7 +85,7 @@ const RiskChart = ({ data, name, category }) => {
   }, [chartData]);
 
   const noDataJsx = (
-    <div className="flex justify-center align-center">
+    <div className="flex my-40 md:my-0 justify-center align-center">
       <GlobeAmericasIcon className="mr-4 w-8" />
       <span className="text-3xl">Select a point on the map</span>
     </div>
@@ -94,7 +94,7 @@ const RiskChart = ({ data, name, category }) => {
   return !data ? (
     noDataJsx
   ) : (
-    <div>
+    <div className="my-40 md:my-0 text-sm md:text-md">
       <div className="flex">
         <BriefcaseIcon className="mr-1 w-4" />
         <span> Name: {data["Asset Name"]}</span>

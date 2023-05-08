@@ -1,7 +1,8 @@
-import { useState, useMemo, useEffect, useCallback } from "react";
+import { useState, useMemo, useEffect, useCallback, useRef } from "react";
 import { MapContainer, TileLayer, Marker, Tooltip } from "react-leaflet";
 import { MapPinIcon } from "@heroicons/react/24/solid";
 import axios from "axios";
+import { isMobile } from 'react-device-detect';
 
 import RiskChart from "./RiskChart";
 import {
@@ -20,6 +21,7 @@ const RiskMap = ({ decade }) => {
   });
   const [assetName, setAssetName] = useState("All");
   const [category, setCategory] = useState("All");
+  const chartRef = useRef(null)
 
   useEffect(() => {
     axios
@@ -101,10 +103,10 @@ const RiskMap = ({ decade }) => {
   );
 
   return (
-    <div className="flex">
+    <div className="flex flex-col md:flex-row">
       <div className="m-2 w-full">
-        <div className="flex mb-5 justify-start">
-          <div className="flex w-1/3 items-center mx-2">
+        <div className="flex flex-col md:flex-row mb-5 justify-start">
+          <div className="flex w-full md:w-1/3 items-center mx-0 md:mx-2">
             <label
               htmlFor="asset-name"
               className="w-1/4 block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -118,12 +120,12 @@ const RiskMap = ({ decade }) => {
                 setAssetName(e.target.value);
               }}
               id="asset-name"
-              className="bg-gray-50 border text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
+              className="mx-1 md:mx-0 bg-gray-50 border text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
             >
               {renderAssetNames()}
             </select>
           </div>
-          <div className="flex w-1/3 items-center mx-2">
+          <div className="flex w-full md:w-1/3 items-center mx-0 my-4 md:my-0 md:mx-2">
             <label
               htmlFor="asset-name"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -137,7 +139,7 @@ const RiskMap = ({ decade }) => {
                 setCategory(e.target.value);
               }}
               id="asset-name"
-              className="mx-4 bg-gray-50 border text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
+              className="mx-2 md:mx-4 bg-gray-50 border text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
             >
               {renderCategories()}
             </select>
@@ -145,9 +147,9 @@ const RiskMap = ({ decade }) => {
         </div>
         <MapContainer
           center={[50, -93]}
-          zoom={3.5}
+          zoom={isMobile ? 2.2 : 3.5}
           scrollWheelZoom={false}
-          style={{ width: 800, height: 600, borderRadius: 10 }}
+          style={{ width: (isMobile ? 350 : 800), height: 600, borderRadius: 10 }}
         >
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -155,26 +157,26 @@ const RiskMap = ({ decade }) => {
           />
           {renderMarkers}
         </MapContainer>
-        <div className="flex w-3/4 m-4 justify-evenly">
-          <div className="flex">
+        <div className="flex flex-wrap w-3/4 m-2 md:m-4 justify-start text-xs md:text-md">
+          <div className="flex items-center mx-1 md:mx-3">
             <span>
               <MapPinIcon style={{ height: 24, width: 24, color: "#64b007" }} />
             </span>
             <span>Low Risk</span>
           </div>
-          <div className="flex">
+          <div className="flex items-center mx-1 md:mx-3">
             <span>
               <MapPinIcon style={{ height: 24, width: 24, color: "#ad980a" }} />
             </span>
             <span>Medium Risk</span>
           </div>
-          <div className="flex">
+          <div className="flex items-center mx-1 md:mx-3">
             <span>
               <MapPinIcon style={{ height: 24, width: 24, color: "#bd7b09" }} />
             </span>
             <span>High Risk</span>
           </div>
-          <div className="flex">
+          <div className="flex items-center mx-1 md:mx-3">
             <span>
               <MapPinIcon style={{ height: 24, width: 24, color: "#bd0909" }} />
             </span>
@@ -183,7 +185,7 @@ const RiskMap = ({ decade }) => {
         </div>
       </div>
       <div className="w-full m-auto">
-        <RiskChart data={chartInfo} name={assetName} category={category} />
+        <RiskChart data={chartInfo} name={assetName} category={category} ref={chartRef} />
       </div>
     </div>
   );
