@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect, useCallback, useRef } from "react";
+import { useState, useMemo, useEffect, useCallback } from "react";
 import { MapContainer, TileLayer, Marker, Tooltip } from "react-leaflet";
 import { MapPinIcon } from "@heroicons/react/24/solid";
 import axios from "axios";
@@ -21,7 +21,6 @@ const RiskMap = ({ decade }) => {
   });
   const [assetName, setAssetName] = useState("All");
   const [category, setCategory] = useState("All");
-  const chartRef = useRef(null)
 
   useEffect(() => {
     axios
@@ -185,7 +184,7 @@ const RiskMap = ({ decade }) => {
         </div>
       </div>
       <div className="w-full m-auto">
-        <RiskChart data={chartInfo} name={assetName} category={category} ref={chartRef} />
+        <RiskChart data={chartInfo} name={assetName} category={category} />
       </div>
     </div>
   );

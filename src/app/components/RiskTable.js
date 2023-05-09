@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { useTable, usePagination, useFilters, useSortBy } from "react-table";
 import { ChevronUpIcon, ChevronDownIcon, AdjustmentsVerticalIcon } from '@heroicons/react/20/solid'
 import axios from "axios";
+import { isMobile } from 'react-device-detect';
 
 const emptyArray = [];
 const columns = [
@@ -110,8 +111,8 @@ const Table = ({ decade }) => {
                 <th
                   key={`column-${columnIndex}`}
                   {...column.getHeaderProps(column.getSortByToggleProps({ title: undefined }))}
-                  className="px-3 py-2 text-left bg-gray- bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
-                  style={{ width: column.size }}
+                  className="px-3 py-2 text-xs md:text text-left bg-gray- bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
+                  style={{ width: !isMobile && column.size }}
                 >
                   <div className="flex align-center" style={{ cursor: 'pointer' }}>
                     {column.render("Header")}
